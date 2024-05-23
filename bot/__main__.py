@@ -12,32 +12,33 @@ from pyrogram import Client
 
 logging.info("Bot Started")
 
-
 @app.on_message(filters.chat(monitored_chats) & filters.incoming)
-def work(_:Client, message:Message):
+def work(_: Client, message: Message):
     caption = None
     msg = None
     chat = chats_map.get(message.chat.id)
+
     if chat.get("replace"):
         for old, new in chat["replace"].items():
             if message.media and not message.poll:
                 caption = message.caption.markdown.replace(old, new)
             elif message.text:
                 msg = message.text.markdown.replace(old, new)
+
     try:
-        for chat in chat["to"]:
+        for chat_id in chat["to"]:
             if caption:
-                message.copy(chat, caption=caption, parse_mode=ParseMode.MARKDOWN)
+                message.copy(chat_id, caption=caption, parse_mode=ParseMode.MARKDOWN)
             elif msg:
-                app.send_message(chat, msg, parse_mode=ParseMode.MARKDOWN)
+                app.send_message(chat_id, msg, parse_mode=ParseMode.MARKDOWN)
             else:
-                message.copy(chat)
+                message.copy(chat_id)
     except Exception as e:
-        logging.error(f"Error while sending message from {message.chat.id} to {chat}: {e}")
+        logging.error(f"Error while sending message from {message.chat.id} to {chat_id}: {e}")
 
 
 @app.on_message(filters.user(sudo_users) & filters.command(["fwd", "forward"]), group=1)
-def forward(client:Client, message:Message):
+def forward(client: Client, message: Message):
     if len(message.command) > 1 and message.command[1].isdigit():
         chat_id = int(message.command[1])
         if chat_id:
@@ -54,13 +55,8 @@ def forward(client:Client, message:Message):
             except Exception as e:
                 message.reply_text(f"Error:\n```{traceback.format_exc()}```")
         else:
-            message.reply_text(
-                "Invalid Chat Identifier. Give me a chat id."
-            )
+            message.reply_text("Invalid Chat Identifier. Give me a chat id.")
     else:
-        message.reply_text(
-            "Invalid Command\nUse /fwd {chat_id} {limit} {first_message_id}"
-        )
-
+        message.reply_text("Invalid Command\nUse /fwd {chat_id} {limit} {first_message_id}")
 
 app.run()
