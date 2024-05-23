@@ -15,24 +15,20 @@ logging.info("Bot Started")
 @app.on_message(filters.chat(monitored_chats) & filters.incoming)
 def work(_: Client, message: Message):
     caption = None
-    msg = None
     chat = chats_map.get(message.chat.id)
 
     if chat.get("replace"):
         for old, new in chat["replace"].items():
             if message.media and not message.poll:
                 caption = message.caption.markdown.replace(old, new)
-            elif message.text:
-                msg = message.text.markdown.replace(old, new)
-
+                
     try:
-        for chat_id in chat["to"]:
-            if caption:
-                message.copy(chat_id, caption=caption, parse_mode=ParseMode.MARKDOWN)
-            elif msg:
-                app.send_message(chat_id, msg, parse_mode=ParseMode.MARKDOWN)
-            else:
-                message.copy(chat_id)
+        if message.media and not message.poll:
+            for chat_id in chat["to"]:
+                if caption:
+                    message.copy(chat_id, caption=caption, parse_mode=ParseMode.MARKDOWN)
+                else:
+                    message.copy(chat_id)
     except Exception as e:
         logging.error(f"Error while sending message from {message.chat.id} to {chat_id}: {e}")
 
@@ -58,5 +54,5 @@ def forward(client: Client, message: Message):
             message.reply_text("Invalid Chat Identifier. Give me a chat id.")
     else:
         message.reply_text("Invalid Command\nUse /fwd {chat_id} {limit} {first_message_id}")
-
+        
 app.run()
