@@ -6,7 +6,6 @@ import traceback
 from pyrogram import filters
 from pyrogram import Client
 from pyrogram.types import Message
-from pyrogram.enums import ParseMode
 
 from bot import app, monitored_chats, chats_map, sudo_users
 
@@ -14,24 +13,12 @@ logging.info("Bot Started")
 
 @app.on_message(filters.chat(monitored_chats) & filters.incoming)
 async def work(client: Client, message: Message):
-    caption = None
     chat = chats_map.get(message.chat.id)
-
-    if chat and chat.get("replace"):
-        for old, new in chat["replace"].items():
-            if message.media and not message.poll:
-                if message.caption:
-                    caption = message.caption.markdown.replace(old, new)
-                else:
-                    caption = None
 
     try:
         if message.media and not message.poll:
             for chat_id in chat["to"]:
-                if caption:
-                    await message.copy(chat_id, caption=caption, parse_mode=ParseMode.MARKDOWN)
-                else:
-                    await message.copy(chat_id)
+                await message.copy(chat_id)
     except Exception as e:
         logging.error(f"Error while sending message from {message.chat.id} to {chat_id}: {e}")
 
