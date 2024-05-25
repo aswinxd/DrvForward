@@ -3,8 +3,7 @@ import logging
 from time import sleep
 import traceback
 
-from pyrogram import filters
-from pyrogram import Client
+from pyrogram import filters, Client
 from pyrogram.types import Message
 from pyrogram.enums import ParseMode
 
@@ -21,7 +20,7 @@ async def work(client: Client, message: Message):
         for old, new in chat["replace"].items():
             if message.media and not message.poll:
                 if message.caption:
-                    caption = message.caption.markdown.replace(old, new)
+                    caption = message.caption.replace(old, new)
                 else:
                     caption = None
 
