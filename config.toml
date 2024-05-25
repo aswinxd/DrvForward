@@ -1,12 +1,9 @@
-# api_id and api_hash can be obtained from https://my.telegram.org
-# bot_token can be obtained from https://t.me/botfather
-# session_string can be obtained from https://repl.it/@subinps/GenerateStringSession
-# sudo_users can be obtained from https://t.me/userinfobot
+# me/userinfobot
 
 [pyrogram]
 api_id = 11390013                        # required
 api_hash = "d1c98093308bf40c69021439e991bafc"                       # required
-bot_token = "7136712068:AAGjCf5F80PwKzkIpgZqpxbCEqVpksS8nO4"                  # either bot_token or session_string is required
+bot_token = "7090341693:AAHyw2Gj5lTWwj_U85s2MnNM6nm7ak7vZhs"                  # either bot_token or session_string is required
 sudo_users = [6546273584]
 # chat ids can be obtained from https://t.me/getidsbot
 # All chats must be in the format of [-]1001234567890
@@ -16,22 +13,16 @@ sudo_users = [6546273584]
 
 [[chats]]
 from = -1002212938036        # required
-to = -1002151761116              # required
+to = -1002156127206              # required
+
+
+
+[[chats]]
+from = -1002234510106        # required
+to = -1002234510106             # required
 
 
 
 [[chats]]
 from = -1002212938036        # required
-to = -1002199326505              # required
-
-
-
-[[chats]]
-from = -1002212938036        # required
-to = -1002162815527              # required
-
-
-
-[[chats]]
-from = -1002212938036        # required
-to = -1002230928220              # required
+to = -1002215324637
