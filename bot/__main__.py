@@ -28,7 +28,7 @@ def work(_: Client, message: Message):
                 if caption:
                     message.copy(chat_id, caption=caption, parse_mode=ParseMode.MARKDOWN)
                 else:
-                    message.copy(chat_id)
+                await message.copy(chat_id)
     except Exception as e:
         logging.error(f"Error while sending message from {message.chat.id} to {chat_id}: {e}")
 
