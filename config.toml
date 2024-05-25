@@ -12,17 +12,17 @@ sudo_users = [6546273584]
 # Atleast one chat must be added
 
 [[chats]]
-from = -1002212938036        # required
+from = -1002175519180        # required
 to = -1002156127206              # required
 
 
 
 [[chats]]
-from = -1002212938036        # required
+from = -1002175519180        # required
 to = -1002234510106             # required
 
 
 
 [[chats]]
-from = -1002212938036        # required
+from = -1002175519180        # required
 to = -1002215324637
